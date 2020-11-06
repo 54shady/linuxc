@@ -50,6 +50,9 @@ int main(int argc, char **argv)
 	 * 把结构体test的一个实例映射到0这个地址
 	 * 这样成员的地址就是在0的基础上往上加
 	 * 进而此时成员的地址
+	 * 1. 把结构体映射到0地址 (struct test *)(0)
+	 * 2. 取结构体中成员 ((struct test *)(0))->c
+	 * 3. 取成员地址偏移量 &(((struct test *)(0))->c)
 	 */
 	printf("offset of struct->c= %p\n", &(((struct test *)(0))->c));
 
