@@ -8,9 +8,12 @@ CFLAGS= -Wall -lpthread
 PROGS = accountest detach ignore_sig sig2main\
 		pj1 pj2 race locktype rwlock_feature \
 		conditionvar conditionvar2 interactive_rw \
-		thread_args_pitfall toncpu tls
+		thread_args_pitfall toncpu tls runonce
 
 all:	$(PROGS)
+
+runonce:	runonce.c
+		$(CC) -o $@ $^ $(CFLAGS)
 
 tls:	tls.c
 		$(CC) -o $@ $^ $(CFLAGS)

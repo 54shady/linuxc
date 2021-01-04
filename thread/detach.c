@@ -2,6 +2,7 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 /* print out the thread status */
 void printout_status(pthread_attr_t *attr)

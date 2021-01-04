@@ -14,3 +14,4 @@ interactive_rw
 thread_args_pitfall
 toncpu
 tls
+runonce
