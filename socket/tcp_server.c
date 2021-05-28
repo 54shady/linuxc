@@ -24,6 +24,19 @@ void do_something_for_client(char *buf, int bytes)
 	fflush(stdout);
 }
 
+/*
+ * Debug this without a single client demo
+ *
+ * Example1 using socat:
+ * socat - TCP4:localhost:8000
+ * <Enter test message here>
+ * [Get replay from server]
+ *
+ * Example2 using netcat utility:
+ * nc localhost 8000
+ * <Enter test message here>
+ * [Get replay from server]
+ */
 int main(int argc, char *argv[])
 {
 	struct sockaddr_in server_addr, client_addr;
