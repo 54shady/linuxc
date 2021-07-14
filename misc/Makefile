@@ -16,6 +16,9 @@ PROGS =	byteio cmd_action containerof cpmem daemon envi \
 
 all:	$(PROGS)
 
+ppo : process_percent_oneline.o
+		$(CC) $(CFLAGS) -o $@ $^
+
 v2f : var2file.o
 		$(CC) $(CFLAGS) -o $@ $^
 
