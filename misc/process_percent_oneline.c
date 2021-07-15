@@ -2,6 +2,57 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+/*
+ * 参考链接: https://misc.flogisoft.com/bash/tip_colors_and_formatting
+ * 在bash中可以用下面三个语法来表示Esc
+ * \e
+ * \033
+ * \x1B
+ *
+ * echo -e "\e[31mHello World\e[0m"
+ * echo -e "\033[31mHello\e[0m World"
+ *
+ * 其中-e选项表示进入escape模式
+ *
+ * Foreground color(text)
+ *	echo -e "Default \e[39mDefault"
+ *	echo -e "Default \e[30mBlack"
+ *	echo -e "Default \e[31mRed"
+ *	echo -e "Default \e[32mGreen"
+ *	echo -e "Default \e[33mYellow"
+ *	echo -e "Default \e[34mBlue"
+ *	echo -e "Default \e[35mMagenta"
+ *	echo -e "Default \e[36mCyan"
+ *	echo -e "Default \e[37mLight gray"
+ *	echo -e "Default \e[90mDark gray"
+ *	echo -e "Default \e[91mLight red"
+ *	echo -e "Default \e[92mLight green"
+ *	echo -e "Default \e[93mLight yellow"
+ *	echo -e "Default \e[94mLight blue"
+ *	echo -e "Default \e[95mLight magenta"
+ *	echo -e "Default \e[96mLight cyan"
+ *	echo -e "Default \e[97mWhite"
+ *
+ * Background color
+ *	echo -e "Default \e[49mDefault"
+ *	echo -e "Default \e[40mBlack"
+ *	echo -e "Default \e[41mRed"
+ *	echo -e "Default \e[42mGreen"
+ *	echo -e "Default \e[43mYellow"
+ *	echo -e "Default \e[44mBlue"
+ *	echo -e "Default \e[45mMagenta"
+ *	echo -e "Default \e[46mCyan"
+ *	echo -e "Default \e[47mLight gray"
+ *	echo -e "Default \e[100mDark gray"
+ *	echo -e "Default \e[101mLight red"
+ *	echo -e "Default \e[102mLight green"
+ *	echo -e "Default \e[103mLight yellow"
+ *	echo -e "Default \e[104mLight blue"
+ *	echo -e "Default \e[105mLight magenta"
+ *	echo -e "Default \e[106mLight cyan"
+ *	echo -e "Default \e[107mWhite"
+ */
+
 void exit_func(void)
 {
 	/* make cursor visable while exit this program */
@@ -54,7 +105,7 @@ int main(int argc, char *argv[])
 		 * 33[4m 下划线
 		 * 33[5m 闪烁
 		 * 33[7m 反显
-		 * 33[8m 消隐
+		 * 33[8m 消隐 (userful for passwords)
 		 * 33[30m -- 33[37m 设置前景色
 		 * 33[40m -- 33[47m 设置背景色
 		 * 33[nA 光标上移n行
