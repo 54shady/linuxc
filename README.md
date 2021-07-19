@@ -12,7 +12,7 @@
 
 [排序算法](./sort/README.md)
 
-[形参和实参](./parameters.md)
+[形参和实参](./misc/parameters.md)
 
 [Linux Signal](./misc/sig/README.md)
 
@@ -20,7 +20,7 @@
 
 [SRAM and DRAM](./misc/sram_dram.md)
 
-[Ext2 filesystem](./ext2_fs.md)
+[Ext2 filesystem](./fs/ext2_fs.md)
 
 [ELF文件格式](./elf/README.md)
 
@@ -32,7 +32,7 @@
 
 [Linux进程调度](./schedule)
 
-[释放Linux内存](./free_memory.md)
+[释放Linux内存](./misc/free_memory.md)
 
 [Linux高级编程](./apue/README.md)
 
@@ -54,7 +54,7 @@
 
 [段错误的产生流程](./misc/segement.md)
 
-[使用dd制作数据文件](./gen_binary_image.md)
+[使用dd制作数据文件](./misc/gen_binary_image.md)
 
 [poll函数使用代码实例](./misc/poll)
 
@@ -68,4 +68,4 @@
 
 [File Handling API Exploration](./fileapi/README.md)
 
-[libraries: libcutils.so: cannot open shared ...](./compile_error.md)
+[libraries: libcutils.so: cannot open shared ...](./misc/compile_error.md)

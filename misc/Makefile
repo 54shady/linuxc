@@ -12,9 +12,12 @@ PROGS =	byteio cmd_action containerof cpmem daemon envi \
 	dnotify_test percent_star_d toggle_value mmap_test1 mmap_test2 \
 	mmap_test3w mmap_test3r fsk_demo incomptest selfident \
 	prot_fun glob_example print_color ghbn ghent sep_test1 sep_test2 \
-	zero_array posrw proc_ctl cping nsstest concat v2f
+	zero_array posrw proc_ctl cping nsstest concat v2f multd
 
 all:	$(PROGS)
+
+multd : multi_level_debug_info.o
+		$(CC) $(CFLAGS) -o $@ $^
 
 ppo : process_percent_oneline.o
 		$(CC) $(CFLAGS) -o $@ $^

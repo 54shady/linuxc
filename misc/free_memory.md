@@ -1,4 +1,4 @@
-# Free Linux Memory
+# Free Linux Memory(DropCaches)
 
 释放前最好先sync保存下缓存内容,防止数据丢失
 
