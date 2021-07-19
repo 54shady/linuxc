@@ -1,23 +1,43 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct person {
-	int age;
-	char name[20];
-};
+#include "foo.h"
 
 static struct person *p;
-static void make_one_person(void)
+
+static void make_one_person_st(void)
 {
 	p = malloc(sizeof(struct person));
 }
 
-static void free_person(struct person *p)
+#ifdef INCLUDE_CFILE_DIRECT
+static void show_age_st(struct person *p)
+{
+	printf("%s, %s:%d\n", __FUNCTION__, p->name, p->age);
+}
+
+static void free_person_st(struct person *p)
 {
 	free(p);
 }
-
-static void show_age(struct person *p)
+#else
+void init_person(void)
 {
-	printf("name %s, age %d\n", p->name, p->age);
+	make_one_person_st();
 }
+
+struct person *get_person(void)
+{
+	return p;
+}
+
+void show_age(void)
+{
+	printf("%s %s:%d\n", __FUNCTION__, p->name, p->age);
+}
+
+void free_person(void)
+{
+	free(p);
+}
+#endif
