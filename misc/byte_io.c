@@ -13,14 +13,17 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	/* read from stdin and write to file */
+	/*
+	 * read from stdin and write to file
+	 * hit ctrl_d on keyborad which means EOF
+	 */
 	while ( (ch = getchar()) != EOF )
 		fputc(ch, fp);
 
 	/* make read write point to start */
 	rewind(fp);
 
-	/* read from stdin and write to file */
+	/* read from file and write to stdio */
 	while ( (ch = fgetc(fp)) != EOF )
 		putchar(ch);
 
