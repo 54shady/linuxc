@@ -1,0 +1,2 @@
+# shellnotes
+shell scripts collections
