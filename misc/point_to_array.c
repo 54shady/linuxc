@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 	ptoa = &a;
 	DBG_PRINT("ptoa = %p, &a = %p\n", ptoa, &a);
 	ptoa = &a + 1;
-	DBG_PRINT("ptoa + 1 = %p, &a = %p, ptoa - &a = %d\n", ptoa, &a, (unsigned char *)ptoa - (unsigned char *)&a);
+	DBG_PRINT("ptoa + 1 = %p, &a = %p, ptoa - &a = %ld\n", ptoa, &a, (unsigned char *)ptoa - (unsigned char *)&a);
 
 	ptr = (int*)(&a + 1);
 

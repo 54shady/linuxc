@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <pthread.h>
+#include <unistd.h>
 
 /*
  * Usage:
@@ -25,6 +26,7 @@ static void *start_routine(void *p)
 		printf("done!\n");
 	}
 
+	return (void *)(0);
 }
 
 void wake_sleep_thread_up(void)

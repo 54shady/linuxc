@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#define BUG_FIX
+
 void myswap(int *a, int *b)
 {
 #ifdef BUG_FIX
@@ -29,7 +31,7 @@ void myswap(int *a, int *b)
 
 int main(int argc, char **argv)
 {
-	int i, j;
+	int i;
 	int arr[] = {1, 2};
 
 	for (i = 0; i < 2; i++)
@@ -37,7 +39,7 @@ int main(int argc, char **argv)
 	printf("\n");
 
 	/* swap the same number will cause error */
-	for (i = 0, j = 1; i < 2, j < 2; i++, j++)
+	for (i = 0; i < 2; i++)
 		myswap(&arr[i], &arr[i]);
 
 	for (i = 0; i < 2; i++)

@@ -1,9 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #ifdef DEBUG_PRINT
 #define DBG_PRINT	printf
 #else
-#define DBG_PRINT
+#define DBG_PRINT(_fmt, args...)     do {} while (0)
 #endif
 
 int main(int argc, char *argv[])

@@ -9,7 +9,10 @@ typedef struct {
 int main(int argc, char **argv)
 {
 	MSG *pmsg = NULL;
-	MSG msg = {4, 1, 0};
+	MSG msg = {
+		.a = 4,
+		.s = {1, 0}
+	};
 	char *src;
 	char *dst;
 

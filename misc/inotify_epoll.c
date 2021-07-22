@@ -124,7 +124,6 @@ int read_process_inotify_fd(int iNotifyFd, int iEpollFd)
 int main(int argc, char *argv[])
 {
 	int i;
-	int iTmpFd;
 	int pollResult;
 	int len;
 	char buf[DATA_MAX_LEN];

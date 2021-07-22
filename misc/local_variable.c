@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 
 /*
  *  验证局部变量存储空间的分配和释放

@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #undef DBG_PRINT
 
 #ifdef DBG_PRINT
 #define dbg_print	printf
 #else
-#define dbg_print
+#define dbg_print(_fmt, args...)     do {} while (0)
 #endif
 void rever(char *str)
 {
@@ -20,15 +21,15 @@ void rever(char *str)
 	head = str;
 	tail = str + len - 1;
 
-	dbg_print("%p, %p, %d\n", head, tail, tail - head);
+	dbg_print("%p, %p, %ld\n", head, tail, tail - head);
 	while (head < tail)
 	{
-		dbg_print("head = %p[%c], tail = %p[%c], %d\n", head, *head,  tail, *tail, tail - head);
+		dbg_print("head = %p[%c], tail = %p[%c], %ld\n", head, *head,  tail, *tail, tail - head);
 		*head ^= *tail;
 		*tail ^= *head ;
 		*head ^= *tail;
 
-		dbg_print("head = %p[%c], tail = %p[%c], %d\n", head, *head,  tail, *tail, tail - head);
+		dbg_print("head = %p[%c], tail = %p[%c], %ld\n", head, *head,  tail, *tail, tail - head);
 		head++;
 		tail--;
 	}

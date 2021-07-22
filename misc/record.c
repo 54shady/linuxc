@@ -37,7 +37,6 @@ int main(int argc, char *argv[])
 	char tmpBuf[23] = {0};
 	char *strIndex;
 	int iIndex = 0;
-	int wSize;
 	Record_t r;
 	struct stat s;
 	char buf[1024];
@@ -109,12 +108,11 @@ int main(int argc, char *argv[])
 
 		sprintf(buf, "%d %4d-%02d-%02d %02d:%02d:%02d\n", r.index, r.year, r.month, r.date, r.hh, r.mm, r.ss);
 		DBG_PRINT("buf = %s\n", buf);
-		wSize = fputs(buf, fp);
+		fputs(buf, fp);
 		fflush(NULL);
 		sleep(1);
 		stat("./log.txt", &s);
-		DBG_PRINT("Record_t = %d, total size = %d, %d\n", sizeof(Record_t), s.st_size, s.st_size / 22);
-
+		DBG_PRINT("Record_t = %ld, total size = %ld, %ld\n", sizeof(Record_t), s.st_size, s.st_size / 22);
 	}
 
 	fclose(fp);
