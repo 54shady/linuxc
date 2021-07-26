@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
-#define DEFINE_STR_ARRAY
+#undef DEFINE_STR_ARRAY
 
 /*
  * strsep和strtok
@@ -30,6 +31,12 @@ int main(int argc, char *argv[])
 #ifdef DEFINE_STR_ARRAY
 	char *s = str;
 #else
+	/*
+	 * strdup will malloc for pointer, which MUST free explicity
+	 * strdup不是标准的c函数
+	 * strdup()在内部调用了malloc()为变量分配内存,不需要使用返回的字符串时,
+	 * 需要用free()释放相应的内存空间,否则会造成内存泄漏
+	 */
 	char *s = strdup(str);
 #endif
 	char *token;
@@ -42,5 +49,8 @@ int main(int argc, char *argv[])
 
 	printf("\n");
 
+#ifndef DEFINE_STR_ARRAY
+	free(s);
+#endif
 	return 0;
 }
