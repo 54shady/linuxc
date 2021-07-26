@@ -114,4 +114,13 @@ static inline void list_add(struct list_head *new, struct list_head *head)
 			&pos->member != (head); 					\
 			pos = list_prev_entry(pos, member))
 
+#define list_entry_is_head(pos, head, member)               \
+    (&pos->member == (head))
+
+#define list_for_each_entry_safe(pos, n, head, member)          \
+    for (pos = list_first_entry(head, typeof(*pos), member),    \
+        n = list_next_entry(pos, member);           \
+         !list_entry_is_head(pos, head, member);            \
+         pos = n, n = list_next_entry(n, member))
+
 #endif
