@@ -6,7 +6,7 @@ CFLAGS= -Wall
 PROGS =	byteio cmd_action containerof cpmem daemon envi \
 		findnumber findsubstr cpuspd getpwd initdarr \
 		inotify inotifyep jmp jmp_ex localva strdup parr pbrb \
-		recd recdr recdw recu reverstr revert180 scan_cal \
+		recd recu reverstr revert180 scan_cal \
 		bigend socketp stack stdouterr structnop swapno \
 		threadsync ttyname tdas idx2str pc spa epl inotify_example \
 		dnotify_test percent_star_d toggle_value mmap_test1 mmap_test2 \
@@ -140,12 +140,6 @@ reverstr:	revers_string.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 recu:	recursion.o
-	$(CC) $(CFLAGS) -o $@ $^
-
-recdw:	record_write.o
-	$(CC) $(CFLAGS) -o $@ $^
-
-recdr:	record_read.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 recd:	record.o
