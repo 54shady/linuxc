@@ -62,11 +62,20 @@ typedef struct
 	char name[20];
 } PersonInfo;
 
+#if 0
 void print_info(char *info)
 {
 	PersonInfo *p = (PersonInfo *)info;
 	printf("name[%s]: age[%d]\n", p->name, p->age);
 }
+#else
+void print_info(void *info)
+{
+	/* In C, no need to explicit do the cast */
+	PersonInfo *p = info;
+	printf("name[%s]: age[%d]\n", p->name, p->age);
+}
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -100,6 +109,8 @@ int main(int argc, char *argv[])
 		perror("malloc error");
 
 	pbuff1->data_len = sizeof(PersonInfo);
+
+	/* 将格式化数据(结构体)转成流式数据(char *) */
 	memcpy(pbuff1->data, &tom, pbuff1->data_len);
 
 	print_info(pbuff1->data);
