@@ -4,7 +4,7 @@
 
 /* The perdefine must declare ahead of the header file */
 #define LNXC_INFO
-#include "lnxc_print.h" /* lnxc print wrapper */
+#include "lnxc.h"
 /*
  * optind is the index of the next element to be processed in argv
  */

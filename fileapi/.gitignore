@@ -12,3 +12,5 @@ structured_ascii_read
 structured_ascii_write
 structured_bin_read_nonseq
 structured_bin_write
+byteio
+iotestfile

@@ -1,9 +1,11 @@
+TOP_DIR ?=..
 CC=gcc
 COMPILE.c=$(CC) $(CFLAGS) $(CPPFLAGS) -c
 LINK.c=$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS)
 CFLAGS= -Wall
+INCLUDES=$(TOP_DIR)/include
 
-PROGS =	byteio cmd_action containerof cpmem daemon envi \
+PROGS =	cmd_action containerof cpmem daemon envi \
 		findnumber findsubstr cpuspd getpwd initdarr \
 		inotify inotifyep jmp jmp_ex localva strdup parr pbrb \
 		recd recu reverstr revert180 scan_cal \
@@ -11,7 +13,7 @@ PROGS =	byteio cmd_action containerof cpmem daemon envi \
 		threadsync ttyname tdas idx2str pc spa epl inotify_example \
 		dnotify_test percent_star_d toggle_value mmap_test1 mmap_test2 \
 		mmap_test3w mmap_test3r fsk_demo incomptest selfident \
-		prot_fun glob_example print_color ghbn ghent sep_test1 sep_test2 \
+		prot_fun glob_example colorprint ghbn ghent sep_test1 sep_test2 \
 		zero_array posrw proc_ctl cping nsstest concat v2f multd ab str2num
 
 all:	$(PROGS)
@@ -25,7 +27,7 @@ ab : ab.o
 multd : multi_level_debug_info.o
 	$(CC) $(CFLAGS) -o $@ $^
 
-ppo : process_percent_oneline.o
+ppo : escapecode_progress_percent_oneline.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 v2f : var2file.o
@@ -61,7 +63,7 @@ ghbn : get_hostbyname.o
 ghent : get_hostent.o
 	$(CC) $(CFLAGS) -o $@ $^
 
-print_color : ansi_color.o
+colorprint : escapecode_ansi_color.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 glob_example : glob_example.o
@@ -85,8 +87,8 @@ mmap_test3r: mmap3_r.o
 mmap_test2: mmap2.o
 	$(CC) $(CFLAGS) -o $@ $^
 
-mmap_test1: mmap1.o
-	$(CC) $(CFLAGS) -o $@ $^
+mmap_test1: mmap1.c
+	$(CC) -I$(INCLUDES) $(CFLAGS) -o $@ $^
 
 toggle_value: toggle.o
 	$(CC) $(CFLAGS) -o $@ $^
@@ -186,9 +188,6 @@ gopt:	getopt.o
 gopt_long:	getopt_long.o
 	$(CC) $(CFLAGS) -o $@ $^
 
-byteio:	byte_io.o
-	$(CC) $(CFLAGS) -o $@ $^
-
 cmd_action:	cmd_and_action.o
 	$(CC) $(CFLAGS) -o $@ $^
 
@@ -224,4 +223,4 @@ incomptest : incomptest.c
 	$(CC) $(CFLAGS) -o $@ $^ -ftest-coverage -fprofile-arcs
 
 clean:
-	rm -f $(PROGS) *.o a.out iotestfile log.txt recfile
+	rm -f $(PROGS) *.o a.out log.txt recfile

@@ -1,5 +1,5 @@
-#ifndef __LNXC_PRINT__
-#define __LNXC_PRINT__
+#ifndef __LNXC__
+#define __LNXC__
 
 /* LNXC mean LinuxC */
 #ifdef LNXC_DEBUG
@@ -29,5 +29,8 @@
 #else
 #define lnxc_err(fmt, args...) do {} while (0)
 #endif
+
+#define handle_error(msg) \
+	do { perror(msg); exit(EXIT_FAILURE); } while (0)
 
 #endif

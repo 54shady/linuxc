@@ -1,5 +1,4 @@
 *.o
-byteio
 cmd_action
 containerof
 cpmem
@@ -68,3 +67,6 @@ concat
 v2f
 ab
 multd
+colorprint
+byteio
+str2num
