@@ -1,9 +1,15 @@
 #include <stdio.h>
+#include <stddef.h>
 
 /*
  * 求结构体成员偏移量
  */
-#define __OFFSET(type, member) (&((type *)(0))->member)
+
+/* print %p using this marco */
+//#define __OFFSET(type, member) (&((type *)(0))->member)
+
+/* print %d using this marco */
+#define __OFFSET(type, member) (size_t)(&((type *)(0))->member)
 
 /*
  * 求结构体首地址
@@ -58,6 +64,8 @@ int main(int argc, char **argv)
 
 	printf("offset of c= %p\n", __OFFSET(struct test, c));
 	printf("offset of d= %p\n", __OFFSET(struct test, d));
+	/* using stddef.h macro offsetof */
+	printf("offset of c= %p\n", offsetof(struct test, c));
 
 	/*
 	 * 求结构体首地址
