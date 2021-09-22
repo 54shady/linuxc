@@ -13,10 +13,12 @@ double sum_array(double in[])
 
 /* 使用宏来保证结尾一定有NAN */
 /* compound literal and variadic macros are the cutest couple */
+/* 通过可变长度宏来实现可变长度参数函数 */
 #define sum(...) sum_array((double []){__VA_ARGS__, NAN})
 
 int main(int argc, char *argv[])
 {
+	/* 使用宏sum就像使用函数一样, 让调用者认为是个可变长度函数 */
 	double two_and_two = sum(2, 2);
 
 	printf("2 + 2 = %g\n", two_and_two);
