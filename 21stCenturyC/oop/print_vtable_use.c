@@ -17,7 +17,17 @@ int main(int argc, char *argv[])
 {
 	textlist_print_html(&save);
 	printf("-------------\n");
+
+	/*
+	 * 虚函数的目的就是子类重写父类的方法
+	 * 通过给对象在外部添加一种方法来解决
+	 * oop中虚函数的实现
+	 */
 	print_hash_add(&save, song_print_html);
+	textlist_print_html(&save);
+
+	printf("-------------\n");
+	print_hash_add(&save, save.print);
 	textlist_print_html(&save);
 
 	return 0;
