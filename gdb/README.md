@@ -384,6 +384,10 @@
 			p time
 			c
 
+### 使用command配合break来修改代码中的变量
+
+[参考例子setvar.c](./setvar.c)
+
 ## 例子12 多线程调试(控制线程运行)[multi_thread.c](./multi_thread.c)
 
 多线程调试中,有时需要将其他不关心的线程停止,只运行关心的线程
