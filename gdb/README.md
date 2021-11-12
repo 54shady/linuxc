@@ -1,5 +1,17 @@
 # GDB调试
 
+## How to use meson build system
+
+build all
+
+	meson build_dir
+	sudo ninja -C build_dir
+
+build single module(build goutc for example)
+
+	meson build_dir
+	sudo ninja -C build_dir goutc
+
 ## GDB 使用coredump调试
 
 [参考文章gdb调试coredump](https://blog.csdn.net/sunxiaopengsun/article/details/72974548)
