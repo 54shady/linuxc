@@ -28,7 +28,12 @@ int main(int argc, char *argv[])
 {
 	int repeat_time = 4;
 	const char *name = "anonymous";
-	repeat_three_times(say_hello, (void *)name); /* char * ==> void **/
-	repeat_three_times(count_number, (void *)&repeat_time); /* int * == > void **/
+
+	/* convert 'char *' to type 'void *' */
+	repeat_three_times(say_hello, (void *)name);
+
+	/* convert 'int *' to 'void *' */
+	repeat_three_times(count_number, (void *)&repeat_time);
+
 	return 0;
 }
