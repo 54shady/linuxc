@@ -69,3 +69,5 @@
 [File Handling API Exploration](./fileapi/README.md)
 
 [libraries: libcutils.so: cannot open shared ...](./misc/compile_error.md)
+
+[Script contain binary executable](./shell/binary)
