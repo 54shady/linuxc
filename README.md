@@ -71,3 +71,5 @@
 [libraries: libcutils.so: cannot open shared ...](./misc/compile_error.md)
 
 [Script contain binary executable](./shell/binary)
+
+[How to make file cache or buffer in ram](misc/cache.md)
