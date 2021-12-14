@@ -16,6 +16,18 @@ build single module(build goutc for example)
 
 [参考文章gdb调试coredump](https://blog.csdn.net/sunxiaopengsun/article/details/72974548)
 
+## GDB如何正确设置路径
+
+程序在编译时,代码路径在/path/to/compile/program,位于编译机器上
+
+现在将程序运行在运行机器,此时需要在运行机器上调试,最简单的方法是设置
+和编译时相同的路径,也可以不相同如下在运行机器上配置.gdbinit
+
+在编译机器上代码位于/path/to/run/and/debug/program
+
+	set substitute-path /path/to/compile /path/to/run/and/debug
+	directory /path/to/run/and/debug/program
+
 ### coredump配置
 
 查看系统是否打开coredump
