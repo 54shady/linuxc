@@ -18,10 +18,20 @@ build single module(build goutc for example)
 
 ## GDB如何正确设置路径
 
+[gdb是如何找到代码路径的](https://alex.dzyoba.com/blog/gdb-source-path/)
+
+- directory
+- set substitute-path
+- -fdebug-prefix-map
+
 程序在编译时,代码路径在/path/to/compile/program,位于编译机器上
 
 现在将程序运行在运行机器,此时需要在运行机器上调试,最简单的方法是设置
 和编译时相同的路径,也可以不相同如下在运行机器上配置.gdbinit
+
+可以通过objdump的来查找应用程序中DW_AT_comp_dir字段的内容
+
+	objdump -g you-app | vim -
 
 在编译机器上代码位于/path/to/run/and/debug/program
 
