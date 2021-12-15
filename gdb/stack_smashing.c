@@ -118,4 +118,9 @@ int main(int argc, char *argv[])
  * 这将使生成的汇编代码访问变量相对于rsp,并释放rbp作为另一个通用寄存器供功能使用.
  * gcc中通过-fomit-frame-pointer来开关编译代码
  * gcc -g -fomit-frame-pointer stack_smashing.c之后上述汇编代码中rbp就变为rsp
+ *
+ * 设置了-fomit-frame-pointer的话
+ * 需要将代码指定到foo函数的第一条指令,此时的%rsp里保存的就是返回地址
+ * (gdb) x/a $rsp
+ * 0x7fffffffdbf8: 0x55555555517e <main+17>
  */
