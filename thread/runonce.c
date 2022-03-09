@@ -6,7 +6,6 @@
 /* Fix compile error */
 #include <sys/syscall.h>
 #include <sys/types.h>
-#define gettid() syscall(__NR_gettid)
 
 #define TRY_COUNT 10
 static int g_cnt = 1;
@@ -20,7 +19,12 @@ void init_routine(void)
 
 void *start_routine(void *p)
 {
-	printf("<%ld>, Times:%d\n", gettid(), g_cnt++);
+	/*
+	 * using the glibc wrap instead of the ugly macro definition
+	 * #define gettid() syscall(__NR_gettid)
+	 * gcc -D_GNU_SOURCE
+	 */
+	printf("<%d>, Times:%d\n", gettid(), g_cnt++);
 
 	pthread_exit((void *)0);
 }

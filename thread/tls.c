@@ -6,7 +6,6 @@
 /* Fix compile error */
 #include <sys/syscall.h>
 #include <sys/types.h>
-#define gettid() syscall(__NR_gettid)
 
 #define THREAD_NR 8
 
@@ -25,7 +24,7 @@ void *start_routine(void *p)
 
 	pthread_mutex_trylock(&mutex);
 	share_value += 1;
-	printf("%ld:%p[%d]\n", gettid(), &share_value, share_value);
+	printf("%d:%p[%d]\n", gettid(), &share_value, share_value);
 	pthread_mutex_unlock(&mutex);
 
 	pthread_exit((void *)0);

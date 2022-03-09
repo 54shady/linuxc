@@ -13,10 +13,10 @@ PROGS = accountest detach ignore_sig sig2main\
 all:	$(PROGS)
 
 runonce:	runonce.c
-		$(CC) -o $@ $^ $(CFLAGS)
+		$(CC) -o $@ $^ $(CFLAGS) -D_GNU_SOURCE
 
 tls:	tls.c
-		$(CC) -o $@ $^ $(CFLAGS)
+		$(CC) -o $@ $^ $(CFLAGS) -D_GNU_SOURCE
 
 toncpu:	thread_oncpu.c
 		$(CC) -o $@ $^ $(CFLAGS) -D_GNU_SOURCE

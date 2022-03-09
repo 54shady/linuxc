@@ -52,8 +52,8 @@ gouta: signal_test.o
 goutb: recursion.o
 	$(CC) $(CFLAGS) -o $@ $^
 
-goutc: multi_process.o
-	$(CC) $(CFLAGS) -o $@ $^ -lpthread
+goutc: multi_process.c
+	$(CC) $(CFLAGS) -o $@ $^ -lpthread -D_GNU_SOURCE
 
 goutd: hello.o
 	$(CC) $(CFLAGS) -o $@ $^

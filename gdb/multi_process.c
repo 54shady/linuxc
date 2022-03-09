@@ -25,9 +25,14 @@ pthread_t g_tid;
  * checkout the thread id
  * ps -eLf | grep goutc
  */
+
 pid_t my_gettid()
 {
-	return syscall(SYS_gettid);
+	/*
+	 * don't use the raw syscall, use libc wraper instead
+	 * gcc -D_GNU_SOURCE ...
+	 */
+	return gettid(); /* syscall(SYS_gettid); */
 }
 
 void loop_work(char *msg)
