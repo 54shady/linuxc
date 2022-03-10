@@ -42,6 +42,8 @@
 
 [内存分配函数](./misc/mem_alloc.md)
 
+[内核中的锁](./misc/locks.md)
+
 [TCP/UDP网络编程](./socket)
 
 [mmap原理和实例](./misc/mmap.md)
