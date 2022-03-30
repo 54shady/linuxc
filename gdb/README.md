@@ -12,13 +12,9 @@ build single module(build goutc for example)
 	meson build_dir
 	sudo ninja -C build_dir goutc
 
-## GDB 使用coredump调试
+## GDB 使用coredump调试 [参考文章:gdb调试coredump](https://blog.csdn.net/sunxiaopengsun/article/details/72974548)
 
-[参考文章gdb调试coredump](https://blog.csdn.net/sunxiaopengsun/article/details/72974548)
-
-## GDB如何正确设置路径
-
-[gdb是如何找到代码路径的](https://alex.dzyoba.com/blog/gdb-source-path/)
+### GDB如何正确设置路径 [参考文章:gdb是如何找到代码路径的](https://alex.dzyoba.com/blog/gdb-source-path/)
 
 - directory
 - set substitute-path
