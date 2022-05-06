@@ -2,6 +2,10 @@
 
 Remeber, like everything in linux in a file, everything in shell is string.
 
+## Reset terminal while show a big binary file which make things a big mess
+
+just type the `stty sane` or just `stty` in your terminal
+
 ## Variable in shell
 
 check the variable in shell
