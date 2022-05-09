@@ -81,3 +81,45 @@ GDB调试要求在编译的时候需要-g选项
 手动添加,需要指定地址
 
 	(gdb) add-symbol-file objcopy_goutd.symbols 0x400430
+
+## 手动加载动态库调试符号表(以调试qemu加载spice的符号表为例)
+
+如下是调试时遇到库文件没有符号表
+
+	(gdb) bt
+	#0  tablet_buttons (sin=0x55fca5f4a560, buttons_state=0) at ../ui/spice-input.c:207
+	#1  0x00007f2458dbb340 in  () at /usr/lib64/libspice-server.so.1
+	#2  0x00007f2458dc6340 in  () at /usr/lib64/libspice-server.so.1
+	#3  0x00007f2458dc7784 in  () at /usr/lib64/libspice-server.so.1
+	#4  0x000055fca369d650 in watch_read (opaque=0x55fca6b85f50) at ../ui/spice-core.c:93
+
+先用info sharedlibrary查询动态库加载情况
+
+	(gdb) i sharedlibrary
+	From                To                  Syms Read   Shared Object Library
+	0x00007f245901e570  0x00007f24590a14ad  Yes (*)     /usr/lib64/libpixman-1.so.0
+	0x00007f2458f42140  0x00007f2458fa4e5e  Yes (*)     /usr/lib64/libepoxy.so.0
+	0x00007f2458eda360  0x00007f2458edebca  Yes (*)     /usr/lib64/libsnappy.so.1
+	0x00007f2458eb6190  0x00007f2458ed1408  Yes (*)     /lib64/liblzo2.so.2
+	0x00007f2458d96320  0x00007f2458e6123b  Yes (*)     /usr/lib64/libspice-server.so.1
+	...
+	(*): Shared library is missing debugging information.
+
+可以看到spice的动态库加载地址是0x00007f2458d96320
+
+手动编译spice(输出路径是/path/to/spice-0.15.0/server/.libs/libspice-server.so.1.14.1)
+
+	(gdb) add-symbol-file /path/to/spice-0.15.0/server/.libs/libspice-server.so.1.14.1 0x00007f2458d96320
+
+再次查看backtrace就能查到符号表了
+
+	(gdb) bt
+	#0  tablet_buttons (sin=0x55fca5f4a560, buttons_state=0) at ../ui/spice-input.c:207
+	#1  0x00007f2458dbb340 in InputsChannelClient::handle_message(unsigned short, unsigned int, void*) (this=0x55fca62dce20, type=<optimized out>, size=4, message=0x55fca62ddb40) at inputs-channel.cpp:345
+	#2  0x00007f2458dc6340 in RedChannelClient::handle_incoming() (this=0x55fca62dce20) at red-channel-client.cpp:1083
+	#3  0x00007f2458dc7784 in red_channel_client_event(int, int, RedChannelClient*) (fd=<optimized out>, event=<optimized out>, rcc=<optimized out>) at red-channel-client.cpp:741
+	#4  0x000055fca369d650 in watch_read (opaque=0x55fca6b85f50) at ../ui/spice-core.c:93
+
+如何移除符号表
+
+	remove-symbol-file /path/to/spice-0.15.0/server/.libs/libspice-server.so.1.14.1
