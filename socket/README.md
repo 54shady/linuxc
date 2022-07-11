@@ -1,3 +1,26 @@
+# Unix Domain Socket
+
+[considerations-unix-domain-sockets](https://www.ibm.com/docs/en/ztpf/1.1.0.15?topic=considerations-unix-domain-sockets)
+
+unix domain socket use local files to send and receive data instead of network interfaces and IP packets.
+
+查看socket类型
+
+	netstat -pa <--unix | --tcp | --udp>
+	stat unix_domain_sock.server
+	ss -xln
+
+domain socket使用在本地IPC通信中,省去TCP/IP的组包,解包等TCP相关的网络操作
+
+参考例子
+[unix-domain-socket stream, client](./unix-domain-socket-client-stream.c)
+
+[unix-domain-socket stream, server](./unix-domain-socket-server-stream.c)
+
+[unix-domain-socket datagram, client](./unix-domain-socket-client-datagram.c)
+
+[unix-domain-socket datagram, server](./unix-domain-socket-server-datagram.c)
+
 # TCP 编程的C/S架构
 
 ![tcp_cs](./tcp_cs.png)

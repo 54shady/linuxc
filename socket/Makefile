@@ -6,9 +6,26 @@ CFLAGS= -Wall -DUSE_RW
 PROGS =	tcp_server_wrap tcp_client_wrap tcp_server tcp_client \
 	tcp_client_inter tcp_server_inter udp_server udp_client \
 	getinfo_svr getinfo_cli io_fcntl_server io_client io_select_server \
-	udp_server_broadcast udp_client_broadcast tcp_server_msg tcp_client_msg
+	udp_server_broadcast udp_client_broadcast tcp_server_msg tcp_client_msg \
+	uds-client-stream uds-server-stream \
+	uds-client-datagram uds-server-datagram \
 
 all: $(PROGS)
+
+# unix domain socket example
+# stream
+uds-client-stream : unix-domain-socket-client-stream.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+uds-server-stream : unix-domain-socket-server-stream.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+# datagram
+uds-client-datagram : unix-domain-socket-client-datagram.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+uds-server-datagram : unix-domain-socket-server-datagram.o
+	$(CC) $(CFLAGS) -o $@ $^
 
 # tcp io multiplexing example
 io_fcntl_server : echo_tcp_server_fcntl.o vector_fd.o
