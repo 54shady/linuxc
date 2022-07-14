@@ -6,7 +6,7 @@
  */
 #include <glib/gprintf.h>
 
-/* gcc  glib-example01.c `pkg-config --cflags --libs glib-2.0` */
+/* gcc  example01.c `pkg-config --cflags --libs glib-2.0` */
 int main(int argc, char *argv[])
 {
 	/*
