@@ -3,10 +3,11 @@
 #include <string.h>
 
 #define NUMBERS_OF_PEOPLE 10
+#define NAME_LEN 30
 
 struct person {
 	int age;
-	char name[10];
+	char name[NAME_LEN];
 };
 
 struct human {
@@ -53,7 +54,7 @@ int main(int argc, char *argv[])
 	}
 
 	for (i = 0; i < NUMBERS_OF_PEOPLE; i++)
-		sprintf(h->p[i]->name, "%s_%d", "annomous", i);
+		snprintf(h->p[i]->name, NAME_LEN, "%s_%d", "annomous", i);
 
 	for (i = 0; i < NUMBERS_OF_PEOPLE; i++)
 		printf("name = %s\n", h->p[i]->name);

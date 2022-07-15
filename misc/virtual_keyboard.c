@@ -227,6 +227,8 @@ int keyascii_to_keycode(int key_ascii)
 			}
 		}
 	}
+
+	return -1;
 }
 
 int creat_user_uinput(void)
@@ -269,6 +271,8 @@ int creat_user_uinput(void)
 		close(uinput_fd);
 		return ret;
 	}
+
+	return 0;
 }
 
 int report_key(unsigned int type, unsigned int keycode, unsigned int value)
