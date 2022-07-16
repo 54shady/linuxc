@@ -2,7 +2,7 @@ CFLAGS= -Wall $(shell pkg-config --cflags glib-2.0)
 LDFLAGS= $(shell pkg-config --libs glib-2.0)
 
 # 使用对应的.c文件,如果没有的话则需要写相应的规则
-PROGS =	queue-test example01 example02
+PROGS =	queue-test example01 example02 gmalloc
 
 all:	$(PROGS)
 
