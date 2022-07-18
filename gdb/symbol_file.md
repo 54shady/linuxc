@@ -4,7 +4,7 @@ GDB调试要求在编译的时候需要-g选项
 
 但是程序发布需要用strip将调试信息删除
 
-所以可以在编译过程中生成调试符号表
+所以可以在编译过程中生成调试符号表(使用objcopy或strip)
 
 	$(OBJCOPY) --only-keep-debug $@ objcopy_$@.symbols
 	$(STRIP) --only-keep-debug $@ -o strip_$@.symbols
@@ -22,7 +22,7 @@ GDB调试要求在编译的时候需要-g选项
 
 ## 手动加载调试符号表
 
-### 方法1.启动GDB的时候传惨
+### 方法1. 启动GDB的时候传惨
 
 使用symbol file启动GDB调试
 
@@ -81,6 +81,16 @@ GDB调试要求在编译的时候需要-g选项
 手动添加,需要指定地址
 
 	(gdb) add-symbol-file objcopy_goutd.symbols 0x400430
+
+### 方法3. 用elfutils的工具将strip的程序和符号表合成nostrip文件
+
+使用eu-unstrip合成文件
+
+	eu-unstrip goutd objcopy_goutd.symbols -o goutd-debuginfo
+	或者
+	eu-unstrip goutd strip_goutd.symbols -o goutd-debuginfo
+
+	gdb ./goutd-debugging
 
 ## 手动加载动态库调试符号表(以调试qemu加载spice的符号表为例)
 
