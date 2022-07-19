@@ -12,10 +12,8 @@
  * 113f:       c7 00 54 65 73 74       movl   $0x74736554,(%rax)
  *
  * addr2line -e a.out 113f
- * /path/to/c.c:21
  *
- * 可能是由于编译器开启了pie功能(--enable-default-pie)
- * 导致同样代码在不同内核上会看到如下错误
+ * 对于没有开启pie功能的gcc编译器(没有配置选项--enable-default-pie)会看到如下错误
  * segfault at 400590 ip 00000000004004e4 sp 00007fffa24d72a0 error 7 in * a.out[400000+1000]
  *
  * grep 4004e4 a.dis

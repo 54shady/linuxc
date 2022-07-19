@@ -29,6 +29,14 @@
  * 4. 使用addr2line找到对应到c文件中的代码位置
  * gcc 编译的时候需要添加-g参数才能看到行数
  * addr2line -e a.out 113c
+ *
+ * 对于没有开启pie功能的gcc编译器(没有配置选项--enable-default-pie)会看到如下错误
+ * segfault at 0 ip 0000000000401109 sp 00007ffed69736f0 error 6 in * a.out[401000+1000]
+ *
+ * addr2line -e a.out 401109
+ *
+ * 查看默认的链接脚本
+ * gcc -Wl,-verbose a.c
  */
 
 int main(int argc, char *argv[])
