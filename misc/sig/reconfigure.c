@@ -13,11 +13,30 @@ void read_config_file(int signum)
 	char *line;
 	size_t len = 0;
 
+	/*
+	 * reconfigure.conf context as below
+	 * a
+	 * 10
+	 */
 	fp = fopen("/tmp/reconfigure.conf", "r");
-	getline(&line, &len, fp);
+	if (!fp)
+	{
+		perror("Open");
+		exit(1);
+	}
+
+	/* first line first char */
+	if (getline(&line, &len, fp) < 1)
+	{
+		perror("Getline char less then 1");
+		exit(1);
+	}
 	c = line[0];
+
+	/* second line content the char count */
 	getline(&line, &len, fp);
 	count = atoi(line);
+
 	printf("read char = %c and count = %d\n", c, count);
 	fclose(fp);
 }
