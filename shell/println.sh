@@ -7,4 +7,4 @@ PS4='Line ${LINENO}: '
 # or run script using using below command
 # PS4='Line ${LINENO}: ' bash -x println.sh
 
-echo "print this line number"
+echo "$BASH_SOURCE print this line number"
