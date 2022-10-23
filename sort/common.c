@@ -19,6 +19,14 @@ void show_array(int array[], int len)
 	printf("\n");
 }
 
+void show_arrayx(int array[], int len)
+{
+	int i;
+
+	for (i = 0; i < len; i++)
+		printf("%3d ", array[i]);
+}
+
 void insert_sort_show_array(int array[], int len, int key_index)
 {
 	int i;
