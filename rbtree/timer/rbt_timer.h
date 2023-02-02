@@ -7,13 +7,21 @@
 
 #include "ngx_rbtree.h"
 
-struct timer_node_s;
-typedef void (*timer_handler_pt)(struct timer_node_s *);
+typedef struct timer_node_s timer_node_t;
+typedef void (*timer_handler_pt)(timer_node_t *);
 
-typedef struct timer_node_s {
+/*
+ * 自定义的定时器数据结构
+ * @node: 其中第一个成员为红黑树根节点,以便进行转换
+ * @handler: 定时器超时处理函数
+ *
+ * _s后缀表示结构体变量
+ * _t后缀表示typedef定义的变量
+ */
+struct timer_node_s {
 	ngx_rbtree_node_t node;
 	timer_handler_pt handler;
-} timer_node_t;
+};
 
 /* 全局的定时器:红黑树的根节点 */
 ngx_rbtree_t g_timer;
@@ -27,8 +35,19 @@ int is_rbt_empty()
 	return g_timer.root == g_timer.sentinel;
 }
 
+/* 初始化红黑树 */
 void init_timer()
 {
+	/*
+	 * 选择ngx_rbtree_insert_timer_value的原因
+	 * 是在红黑数中可能插入相同key值的定时器
+	 * 即添加了相同超时时间的定时器
+	 * 此时插入方法是将相同key值的节点插入到右子树
+	 * 这样能实现在有相同超时时间的定时器时,执行的顺序是按照其插入的顺序
+	 * 比如同时插入三个超时时间为1秒中的定时器a,b,c
+	 * 则执行定时器的顺序仍然为a,b,c
+	 * 如果定时器底层数据结构改用hlist(哈希表)的化,这里需要用链式来处理
+	 */
 	ngx_rbtree_init(&g_timer, &g_sentinel, ngx_rbtree_insert_timer_value);
 }
 
@@ -44,11 +63,13 @@ unsigned int current_time()
 void del_timer(timer_node_t *tn)
 {
 	ngx_rbtree_delete(&g_timer, &tn->node);
+	free(tn);
 }
 
 void handle_timer()
 {
 	ngx_rbtree_node_t *node, *root;
+	timer_node_t *tn;
 
 	for (;;)
 	{
@@ -68,13 +89,16 @@ void handle_timer()
 		if (current_time() < node->key)
 			break;
 
-		/* 找到了需要处理的定时器 */
-		timer_node_t *tn = (timer_node_t *)node;
+		/*
+		 * 找到了需要处理的定时器
+		 * 在timer_node_t的数据结构设计时将红黑数节点放在了结构体第一个成员位置
+		 * 所以可以利用其和结构体首地址相同的原理来强行转换为timer_node_t的指针
+		 */
+		tn = (timer_node_t *)node;
 		tn->handler(tn);
 
 		/* 将已经处理的定时器从红黑树中删除 */
-		ngx_rbtree_delete(&g_timer, &tn->node);
-		free(tn);
+		del_timer(tn);
 	}
 }
 
