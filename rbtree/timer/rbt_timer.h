@@ -68,13 +68,11 @@ void del_timer(timer_node_t *tn)
 
 void handle_timer()
 {
-	ngx_rbtree_node_t *node, *root;
+	ngx_rbtree_node_t *node;
 	timer_node_t *tn;
 
 	for (;;)
 	{
-		root = g_timer.root;
-
 		/* 空树: 此时没有定时器 */
 		if (is_rbt_empty())
 			break;
