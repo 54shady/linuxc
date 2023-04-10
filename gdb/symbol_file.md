@@ -92,6 +92,30 @@ GDB调试要求在编译的时候需要-g选项
 
 	gdb ./goutd-debugging
 
+### 方法4. 对于动态库的调试信息可以通过设置LD_LIBRARY_PATH
+
+比如调试qemu时,对libiscsi库的调试,
+使用环境变量LD_LIBRARY_PATH设置对应的库(libiscsi.so.9.0.0)路径即可,
+因为通过LD_LIBRARY_PATH环境变量设置的库按找查找顺序会被最先加载,
+只要加载了带调试信息的库即可
+
+编译libiscsi(依赖dev-util/cunit)
+
+	./autogen.sh
+	./configure
+	make
+
+编译后动态库会生成在源码libiscsi-1.19.0/lib/.libs目录下
+
+比如使用如下命令行启动虚拟机
+
+	gdb --args qemu-system-x86_64 -smp 2 -m 1G -enable-kvm \
+		-device virtio-scsi,id=scsi \
+		-drive if=none,format=raw,file=iscsi://target_iqn_url,id=diska
+		-device scsi-block,drive=diska
+
+	(gdb) set env LD_LIBRARY_PATH /path/to/libiscsi-1.19.0/lib/.libs/
+
 ## 手动加载动态库调试符号表(以调试qemu加载spice的符号表为例)
 
 如下是调试时遇到库文件没有符号表
