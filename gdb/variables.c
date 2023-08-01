@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 	for (i = 0, j = 100; i < 20 && j > 50; i++, j--)
 	{
 		do_something(g_cnt);
-		g_cnt++;
+		g_cnt++; /* do a break here */
 	}
 
 	return 0;

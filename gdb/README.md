@@ -294,11 +294,20 @@ build single module(build goutc for example)
 
 ## 例子7 使用display观察变量变化过程[源码variables.c](./variables.c)
 
-	(gdb) b do_something
+	(gdb) b main
 	(gdb) r
 	(gdb) display i
 	(gdb) display j
-	(gdb) n
+	(gdb) b 21
+
+或者使用断点查看
+
+	(gdb) b 21
+	(gdb) command 1
+	printf "g_cnt = %d, i = %d, j = %d\n", g_cnt, i, j
+	c
+	end
+	(gdb) r
 
 ## 例子8 定位死锁问题
 
