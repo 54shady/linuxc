@@ -4,6 +4,7 @@
 #include <sys/types.h>
 
 /*
+ * name a thread(set a name for thread)
  * Usage
  * cat /proc/`pidof a.out`/comm
  */
