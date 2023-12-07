@@ -16,44 +16,54 @@ int main(int argc, char *argv[])
 	int len_decode; /* length of decode string */
 	unsigned char *de_output;
 
-	if (argc < 2)
+	if (argc < 3)
 	{
-		printf("%s <string>\n", argv[0]);
+		printf("%s <-e | -d> <string>\n", argv[0]);
 		return -1;
 	}
 
-	/* print out the raw code */
-	printf("raw code : %s\n", argv[1]);
+	len_input = strlen((const char *)argv[2]);
 
-	/* encode will longer the stirng */
-	/* each 3 bytes encode to 4 bytes */
-	assert(strlen((const char *)argv[1]) < ENCODE_BUFFER_LEN * 4 / 3);
-	len_input = strlen((const char *)argv[1]);
-
-	/* base64 encoding */
-	len_encode = base64encode((const unsigned char *)argv[1], len_input, en_output, sizeof(en_output));
-	en_output[len_encode] = '\0';
-	printf("encoding : %s\n", en_output);
-
-	/* malloc buffer for output string */
-	if (len_input < len_encode * 4 / 3)
-		len_output = len_encode * 4 / 3;
-	else
-		len_output = len_input;
-
-	de_output = malloc(len_output * sizeof(char) + 1);
-	if (NULL == de_output)
+	switch (argv[1][1])
 	{
-		perror("Malloc error");
-		return -2;
+		case 'e':
+			printf("encode string: %s\n", argv[2]);
+
+			/* encode will longer the stirng */
+			/* each 3 bytes encode to 4 bytes */
+			assert(strlen((const char *)argv[2]) < ENCODE_BUFFER_LEN * 4 / 3);
+
+			/* base64 encoding */
+			len_encode = base64encode((const unsigned char *)argv[2], len_input, en_output, sizeof(en_output));
+			en_output[len_encode] = '\0';
+			printf("encoding : %s\n", en_output);
+
+			break;
+		case 'd':
+			printf("decode string: %s\n", argv[2]);
+
+			/* malloc buffer for output string */
+			len_output = len_input;
+
+			de_output = malloc(len_output * sizeof(char) + 1);
+			if (NULL == de_output)
+			{
+				perror("Malloc error");
+				return -2;
+			}
+
+			/* base64 decoding */
+			len_decode = base64decode(argv[2], strlen((const char *)argv[2]), de_output, len_output);
+			de_output[len_decode] = '\0';
+			printf("decoding : %s\n", de_output);
+
+			free(de_output);
+
+			break;
+		default:
+			printf("Unkonw action\n");
+			break;
 	}
-
-	/* base64 decoding */
-	len_decode = base64decode(en_output, strlen((const char *)en_output), de_output, len_output);
-	de_output[len_decode] = '\0';
-	printf("decoding : %s\n", de_output);
-
-	free(de_output);
 
 	return 0;
 }
