@@ -21,6 +21,16 @@
 	(gdb) set env LD_LIBRARY_PATH /linuxc/gdb/libdebug/lib/dynamic:/linuxc/gdb/libdebug/lib/static
 	(gdb) set env LD_LIBRARY_PATH ./lib/dynamic:.libdebug/lib/static
 
+调试qemu中使用libiscsi
+
+	gdb --args ./build/x86_64-softmmu/qemu-system-x86_64 -smp 2 -m 1G -enable-kvm
+	-device virtio-scsi,id=scsi -drive
+	if=none,format=raw,file=iscsi://192.168.1.100/iqn.2012-01.com.mydom.host01:target1/1,id=diska
+	-device scsi-block,drive=diska -serial mon:stdio
+
+	(gdb) set env LD_LIBRARY_PATH /path/to/libiscsi-1.19.0/lib/.libs/
+
+
 查看环境变量
 
 	(gdb) show env LD_LIBRARY_PATH

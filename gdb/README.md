@@ -29,10 +29,16 @@ build single module(build goutc for example)
 
 	objdump -g you-app | vim -
 
-在编译机器上代码位于/path/to/run/and/debug/program
+在编译机器上代码位于/path/to/compile
 
-	set substitute-path /path/to/compile /path/to/run/and/debug
-	directory /path/to/run/and/debug/program
+	set substitute-path /path/to/compile /path/to/debug
+
+比如
+
+	set substitute-path /run/time/path/qemu /compile/qemu
+	set substitute-path ../qemu /compile/qemu
+
+	directory /path/to/compile
 
 ### coredump配置
 
