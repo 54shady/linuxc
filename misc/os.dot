@@ -1,0 +1,50 @@
+/*
+ * https://graphviz.org/doc/info/colors.html
+ * dot -Tpng os.dot -o os.png
+ */
+digraph OSArch {
+node [shape="record"]
+
+subgraph cluster_0 {
+	label = "OS";
+	labeljust = left;
+
+	subgraph cluster_3 {
+		label = "UserSpace";
+		labeljust = left;
+		style=filled;
+		fillcolor="darkgrey";
+
+		app1 [width=0.5 label="app1" style=filled fillcolor="gold"];
+		app2 [width=0.5 label="app2" style=filled fillcolor="red"];
+		subgraph cluster_1 {
+			label = "Container";
+			app3 [width=0.5 label="app3" style=filled fillcolor="green"];
+		}
+
+		api [width=4 label = "API Layer" color="blue"];
+	}
+
+	subgraph cluster_2 {
+		label = "Kernel Space";
+		labeljust = left;
+		style=filled;
+
+		i2c [width=1 label = "i2c"];
+		uart [width=1 label = "uart"];
+		spi [width=1 label = "spi"];
+		gpio [width=1 label = "gpio"];
+	}
+}
+
+app1->i2c [label="v1" color="gold"];
+app2->api [label="v2" color="red"];
+app3->api [label="v3" color="green"];
+
+api->i2c
+api->uart
+api->spi
+api->gpio
+
+"OS Arch" [shape = "plaintext"];
+}
