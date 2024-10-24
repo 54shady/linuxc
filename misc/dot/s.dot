@@ -1,0 +1,55 @@
+digraph test {
+node [shape="record"]
+rankdir=LR;
+compound=true;
+
+subgraph cluster_0 {
+	label = "demo";
+	labeljust = left;
+
+	subgraph cluster_1 {
+		label = "A";
+		labeljust = left;
+		style=filled;
+		fillcolor="deepskyblue";
+		a0 [width=1 label = "a0"];
+		a1 [width=1 label = "a1"];
+	}
+
+	subgraph cluster_2 {
+		label = "B";
+		labeljust = left;
+		style=filled;
+		fillcolor="deepskyblue1";
+		b0 [width=1 label = "b0"];
+		b1 [width=1 label = "b1"];
+	}
+
+	subgraph cluster_3 {
+		label = "C";
+		labeljust = left;
+		style=filled;
+		fillcolor="deepskyblue2";
+		c0 [width=1 label = "c0"];
+		c1 [width=1 label = "c1"];
+	}
+
+	subgraph cluster_4 {
+		label = "D";
+		labeljust = left;
+		style=filled;
+		style=filled;
+		fillcolor="deepskyblue3";
+		d0 [width=1 label = "d0"];
+		d1 [width=1 label = "d1"];
+	}
+
+}
+
+// need compound=true to enable list link
+a0->b0 [ltail=cluster_1,lhead=cluster_2];
+b0->c0 [ltail=cluster_2,lhead=cluster_3];
+c0->d0 [ltail=cluster_3,lhead=cluster_4];
+
+"test" [shape = "plaintext"];
+}
