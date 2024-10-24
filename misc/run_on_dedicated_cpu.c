@@ -52,6 +52,9 @@ void *start_routine(void *arg)
  * 将线程指定到具体cpu运行
  * gcc -lpthread -lm run_on_dedicated_cpu.c
  *
+ * on rk3588 debian system:
+ * gcc run_on_dedicated_cpu.c -lpthread -lm
+ *
  * 1. 内核中开启配置
  *	CONFIG_CPU_ISOLATION=y
  *	CONFIG_NO_HZ_FULL=y
@@ -69,6 +72,13 @@ void *start_routine(void *arg)
  * 此时因为应用(或驱动)任然可以通过绑定到指定cpu运行
  * 比如这里运行应用程序并绑定到7的话(./a.out 7)
  * 就能实现类似一个应用程序独占cpu使用的情况
+ *
+ * ps -eo pid,args:50,psr
+ *
+ * 查看1号进程的cpu亲和性
+ * taskset -cp 1
+ *
+ * grep Cpus_allowed_list /proc/$$/status
  */
 int main(int argc, char *argv[])
 {
