@@ -56,7 +56,9 @@ void *start_routine2(void *p)
 
 Test on rk3588
 
-	gcc demo.c -lpthread -o demo
+编译的时候开启符号表,后续使用perf annotate可以查看到函数
+
+	gcc -g demo.c -lpthread -o demo
 	./demo
 
 首先收集全局系统的性能数据
@@ -127,7 +129,7 @@ Test on rk3588
 
 编译一个使能cache line aligned的程序再测试,发下cache miss率下降
 
-	gcc -DCACHELINE_ALIGNED demo.c -lpthread -o demo-a
+	gcc -g -DCACHELINE_ALIGNED demo.c -lpthread -o demo-a
 	./demo-a
 
 	perf_5.10 stat -a -e cache-references,cache-misses -- sleep 10
@@ -160,6 +162,113 @@ Test on rk3588
 			 274952074      cache-misses              #    0.949 % of all cache refs
 
 		  10.002989110 seconds time elapsed
+
+收集指定程序的数据并使用annotate
+
+	perf_5.10 record -a -e cache-references,cache-misses -p `pidof demo` sleep 10
+	perf_5.10 annotate -i perf.data --vmlinux vmlinux
+	perf_5.10 annotate -i perf.data //在板端的话可以不需要vmlinux参数
+
+		Samples: 79K of event 'cache-references', 4000 Hz, Event count (approx.): 29263649025
+	start_routine2  /root/a/demo [Percent: local period]
+	Percent│    pthread_exit((void *)0);
+		   │    }
+		   │
+		   │    void *start_routine2(void *p)
+		   │    {
+		   │      sub  sp, sp, #0x20
+		   │      str  x0, [sp, #8]
+		   │
+		   │    unsigned int val, i = 0;
+		   │      str  wzr, [sp, #28]
+		   │
+		   │    do {
+		   │    shared.b += i;
+	  1.51 │ c:   adrp x0, exit@GLIBC_2.17
+		   │      add  x0, x0, #0x58
+		   │      ldr  w1, [x0, #4]
+	 79.49 │      ldr  w0, [sp, #28]
+	  5.54 │      add  w1, w1, w0
+		   │      adrp x0, exit@GLIBC_2.17
+		   │      add  x0, x0, #0x58
+		   │      str  w1, [x0, #4]
+		   │    i++;
+	  0.04 │      ldr  w0, [sp, #28]
+	  4.02 │      add  w0, w0, #0x1
+		   │      str  w0, [sp, #28]
+		   │    shared.b += i;
+	  9.40 │      b    c
+
+	  press 'q' key
+
+			  Samples: 79K of event 'cache-misses', 4000 Hz, Event count (approx.): 273348219
+	start_routine1  /root/a/demo [Percent: local period]
+	Percent│    start_routine1():
+		   │    #endif
+		   │    };
+		   │
+		   │    struct share_struct shared;
+		   │    void *start_routine1(void *p)
+		   │    {
+		   │      sub  sp, sp, #0x20
+		   │      str  x0, [sp, #8]
+		   │    unsigned int val;
+		   │
+		   │    do {
+		   │    val = shared.a;
+	  4.62 │ 8:   adrp x0, exit@GLIBC_2.17
+	  8.46 │      add  x0, x0, #0x58
+	  5.71 │      ldr  w0, [x0]
+	 69.58 │      str  w0, [sp, #28]
+	 11.63 │      b    8
+
+对比cache line aligned的数据,cache miss的数量减少了
+
+	Samples: 80K of event 'cache-references', 4000 Hz, Event count (approx.): 50111290920
+	start_routine1  /root/a/demo-a [Percent: local period]
+	Percent│    start_routine1():
+		   │    #endif
+		   │    };
+		   │
+		   │    struct share_struct shared;
+		   │    void *start_routine1(void *p)
+		   │    {
+		   │      sub  sp, sp, #0x20
+		   │      str  x0, [sp, #8]
+		   │    unsigned int val;
+		   │
+		   │    do {
+		   │    val = shared.a;
+		   │ 8:   adrp x0, exit@GLIBC_2.17
+	  9.26 │      add  x0, x0, #0xc0
+	  0.00 │      ldr  w0, [x0]
+	 90.71 │      str  w0, [sp, #28]
+	  0.02 │      b    8
+
+	  press 'q' key
+
+	  Samples: 5K of event 'cache-misses', 4000 Hz, Event count (approx.): 222707
+	start_routine1  /root/a/demo-a [Percent: local period]
+	Percent│    start_routine1():
+		   │    #endif
+		   │    };
+		   │
+		   │    struct share_struct shared;
+		   │    void *start_routine1(void *p)
+		   │    {
+		   │      sub  sp, sp, #0x20
+		   │      str  x0, [sp, #8]
+		   │    unsigned int val;
+		   │
+		   │    do {
+		   │    val = shared.a;
+		   │ 8:   adrp x0, exit@GLIBC_2.17
+	  8.44 │      add  x0, x0, #0xc0
+	  0.03 │      ldr  w0, [x0]
+	 91.03 │      str  w0, [sp, #28]
+	  0.50 │      b    8
+
+
 
 --------------
 	  同样的代码在x86上测试的结果却刚好相反,开启了cache line aligned反而cache miss更高
